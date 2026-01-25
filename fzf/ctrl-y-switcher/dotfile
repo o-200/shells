@@ -1,0 +1,13 @@
+# fzf-rg-switcher
+__fzf_rg_widget() {
+  local selected
+  selected="$("$HOME/.local/bin/rg-fzf-ctrl-y" "$READLINE_LINE" 2>/dev/null)"
+
+  [[ -z "$selected" ]] && return
+
+  # Insert selected path at cursor position
+  READLINE_LINE="${READLINE_LINE:0:READLINE_POINT}$selected${READLINE_LINE:READLINE_POINT}"
+  READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
+}
+
+bind -x '"\C-y":__fzf_rg_widget'
